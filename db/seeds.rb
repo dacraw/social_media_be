@@ -21,7 +21,9 @@ end
 if UserRating.count == 0 
     UserRating.create! user: User.find_by_email("johndoe@example.com"), rater: User.find_by_email("janedoe@example.com"), rating: 5, rated_at: Date.parse("2024-09-10"),	created_at: Date.parse("2024-09-10"), updated_at: Date.parse("2024-09-10")
 
-    UserRating.create! user: User.find_by_email("johndoe@example.com"), rater: User.find_by_email("beebo@example.com"), rating: 4, rated_at: Date.parse("2024-09-10"),	created_at: Date.parse("2024-09-10"), updated_at: Date.parse("2024-09-10")
-
     UserRating.create! user: User.find_by_email("johndoe@example.com"), rater: User.find_by_email("rado@example.com"), rating: 3, rated_at: Date.parse("2024-09-10"),	created_at: Date.parse("2024-09-10"), updated_at: Date.parse("2024-09-10")
+end
+
+if Post.count == 0 
+    Post.create! title: "Amazing post",	body: "Super incredible content here about cats", user: User.find_by_email("johndoe@example.com"), posted_at: Date.parse("2024-09-10"), created_at: Date.parse("2024-09-10"), updated_at: Date.parse("2024-09-12")
 end

@@ -7,4 +7,5 @@ class User < ApplicationRecord
   validates_presence_of :email, :name, :registered_at
 
   has_many :user_ratings
+  has_many :posts
 end
