@@ -1,11 +1,11 @@
-class RatingsController < ApplicationController
+class UserRatingsController < ApplicationController
     def create
 
     end
 
     private
 
-    def ratings_params
+    def user_ratings_params
         require(:user_rating).permit(:user_id, :rating)
     end
 end
