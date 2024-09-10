@@ -27,3 +27,7 @@ end
 if Post.count == 0 
     Post.create! title: "Amazing post",	body: "Super incredible content here about cats", user: User.find_by_email("johndoe@example.com"), posted_at: Date.parse("2024-09-10"), created_at: Date.parse("2024-09-10"), updated_at: Date.parse("2024-09-12")
 end
+
+if Comment.count == 0
+    Comment.create! user: User.find_by_email("beebo@example.com"), post: Post.first, message: "Wowowow this is amazing!", commented_at: Date.parse("2024-09-10"), created_at: Date.parse("2024-09-10"), updated_at: Date.parse("2024-09-12")
+end
