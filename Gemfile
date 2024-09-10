@@ -42,6 +42,7 @@ group :development, :test do
   gem "debug", platforms: %i[ mri windows ]
   gem "rspec-rails", "~> 7.0.0"
   gem 'factory_bot_rails', "~> 6.4.3"
+  gem "faker", "~> 3.4.2"
 end
 
 group :development do
