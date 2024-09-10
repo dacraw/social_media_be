@@ -5,4 +5,6 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   validates_presence_of :email, :name, :registered_at
+
+  has_many :user_ratings
 end
