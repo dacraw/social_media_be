@@ -3,7 +3,8 @@ FactoryBot.define do
     email { Faker::Internet.email }
     password { Faker::Internet.password }
     name { Faker::Name.name }
-    registered_at { Time.now }    
+    registered_at { Time.now }   
+    user_ratings { [] } 
 
     trait :with_ratings do
       after :create do |user|
