@@ -13,6 +13,6 @@ class User < ApplicationRecord
     sum = 0
     self.user_ratings.each {|user_rating| sum += user_rating.rating }
 
-    sum.to_f / self.user_ratings.size
+    (sum.to_f / self.user_ratings.size).round 2
   end
 end
