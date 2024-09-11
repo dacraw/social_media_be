@@ -8,4 +8,11 @@ class User < ApplicationRecord
 
   has_many :user_ratings
   has_many :posts
+
+  def average_rating
+    sum = 0
+    self.user_ratings.each {|user_rating| sum += user_rating.rating }
+
+    sum.to_f / self.user_ratings.size
+  end
 end
