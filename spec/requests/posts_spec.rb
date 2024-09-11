@@ -21,7 +21,18 @@ RSpec.describe "Posts", type: :request do
         post posts_path, params: { post: {user_id: user.id }}
         expect(response.body).to eq "{\"errors\":{\"message\":[\"Title can't be blank\",\"Body can't be blank\"]}}"
       }.not_to change { Post.count }
+    end
 
+    it "creates a TimelineItem" do
+      post_params = { user_id: user.id, title: "Amazing Post", body: "I'm going to tell you about the greatest ideas ever" }
+
+      expect {
+        post posts_path, params:{ post: post_params }
+        new_post = Post.last
+        expect(new_post.user).to eq user
+        expect(new_post.title).to eq post_params[:title]
+        expect(new_post.body).to eq post_params[:body]
+      }.to change { TimelineItem.count }.from(0).to(1)
     end
   end
 end
