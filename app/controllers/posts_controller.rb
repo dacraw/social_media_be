@@ -4,7 +4,7 @@ class PostsController < ApplicationController
         @post.posted_at = Time.now
 
         if @post.save
-            timeline_item = TimelineItem.new timelineable: @post, event: TimelineItem::CREATE_POST
+            timeline_item = TimelineItem.new timelineable: @post, event: TimelineItem::CREATE_POST, user: @post.user
             if !timeline_item.save
                 return render json: { errors: { message: @timeline_item.errors.full_messages} }, status: 400
             end
