@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::API
-    before_action :authorize_user!
+    before_action :authenticate_user!
 
 
     def encode_token(payload)
@@ -27,7 +27,7 @@ class ApplicationController < ActionController::API
         end
     end
 
-    def authorize_user!
+    def authenticate_user!
         if current_user.nil?
             render json: { message: "Please sign in before continuing."}, status: :unauthorized
         end
