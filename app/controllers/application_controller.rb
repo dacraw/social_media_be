@@ -1,8 +1,9 @@
 class ApplicationController < ActionController::API
     before_action :authenticate_user!
 
-
     def encode_token(payload)
+        payload["exp"] = exp = Time.now.to_i + 4 * 3600
+        
         JWT.encode payload, Rails.application.credentials[:jwt_secret_key]
     end
 

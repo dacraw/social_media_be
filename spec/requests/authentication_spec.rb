@@ -15,6 +15,9 @@ RSpec.describe "Authentication", type: :request do
       expect(parsed_user["id"].to_i).to eq user.id
       expect(parsed_user["email"]).to eq user.email
       expect(parsed_user["name"]).to eq user.name
+
+      parsed_token = JWT.decode parsed_body["token"], Rails.application.credentials[:jwt_secret_key]
+      expect(parsed_token.first["exp"]).to be_present
     end
   end
 end
