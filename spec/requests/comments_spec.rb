@@ -12,8 +12,10 @@ RSpec.describe "Comments", type: :request do
         message: "Wow this post is so great"
       }
 
+      token = sign_in(user)
+
       expect {
-        post comments_path, params: {comment: comment_params}
+        post comments_path, params: {comment: comment_params}, headers: { authorization: "Bearer #{token}"}
       }.to change { Comment.count }.from(0).to(1)
     end
 
@@ -24,9 +26,16 @@ RSpec.describe "Comments", type: :request do
         message: "Wow this post is so great"
       }
 
+      token = sign_in(user)
+      
       expect {
-        post comments_path, params: {comment: comment_params}
+        post comments_path, params: {comment: comment_params}, headers: { authorization: "Bearer #{token}"}
       }.to change { TimelineItem.count }.from(0).to(1)     
+
+      timeline_item = TimelineItem.last
+      expect(timeline_item.user).to eq user
+      expect(timeline_item.event).to eq TimelineItem::COMMENT_ON_POST
+      expect(timeline_item.timelineable).to eq Comment.last
     end
   end
 end
