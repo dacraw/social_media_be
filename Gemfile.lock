@@ -120,6 +120,8 @@ GEM
     irb (1.14.0)
       rdoc (>= 4.0.0)
       reline (>= 0.4.2)
+    jwt (2.8.2)
+      base64
     logger (1.6.1)
     loofah (2.22.0)
       crass (~> 1.0.2)
@@ -257,12 +259,14 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
+  bcrypt (~> 3.1.7)
   bootsnap
   debug
   devise (~> 4.9.4)
   error_highlight (>= 0.4.0)
   factory_bot_rails (~> 6.4.3)
   faker (~> 3.4.2)
+  jwt
   octokit
   pg (~> 1.1)
   puma (>= 5.0)
