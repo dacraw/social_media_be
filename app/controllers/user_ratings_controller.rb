@@ -6,7 +6,7 @@ class UserRatingsController < ApplicationController
         if @user_rating.save
             user_average = @user_rating.user.average_rating
             if user_average > 4.0
-                TimelineItem.create timelineable: @user_rating.user, event: TimelineItem::SURPASS_4_STARS
+                TimelineItem.create timelineable: @user_rating.user, event: TimelineItem::SURPASS_4_STARS, user: @user_rating.user
             end
             
             render json: @user_rating
