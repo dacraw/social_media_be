@@ -1,3 +1,0 @@
-env:
-  RAILS_ENV: test
-run: bin/rails db:setup spec
