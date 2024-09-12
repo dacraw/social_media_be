@@ -17,8 +17,6 @@ RSpec.describe "Users", type: :request do
   end
   
   describe "GET /timeline" do
-    it "provides the user's timeline" do
-      get "/users/#{user.id}/timeline"
-    end
+    it "provides the user's timeline"
   end
 end

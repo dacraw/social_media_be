@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe "Authentication", type: :request do
   let!(:user) { create :user }
   
-  describe "POST /index" do
+  describe "POST /login" do
     it "signs in a user" do
       post login_path, params: { authentication: { email: user.email, password: user.password }}
 
