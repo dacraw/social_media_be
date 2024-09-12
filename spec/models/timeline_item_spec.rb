@@ -2,10 +2,10 @@ require 'rails_helper'
 
 RSpec.describe TimelineItem, type: :model do
   let(:user) { create :user }
-  let(:timelineable) { create :post, user: user }
+  let(:timelineable) { create :post, user: create(:user) }
   
   it "creates a TimelineItem" do
-    timeline_item = build :timeline_item, timelineable: timelineable, event: TimelineItem::CREATE_POST
+    timeline_item = build :timeline_item, timelineable: timelineable, event: TimelineItem::CREATE_POST, user: user
 
     expect {
       timeline_item.save

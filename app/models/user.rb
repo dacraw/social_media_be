@@ -8,6 +8,8 @@ class User < ApplicationRecord
 
   has_many :user_ratings
   has_many :posts
+  has_many :timeline_items
+  has_many :github_events
 
   def average_rating
     sum = 0

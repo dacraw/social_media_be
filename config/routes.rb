@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
   devise_for :users
 
+  get "/users/:id/timeline", to: "users#timeline"
+
   resources :posts, only: [:create]
   resources :comments, only: [:create]
 

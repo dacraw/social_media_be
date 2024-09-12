@@ -1,5 +1,6 @@
 class TimelineItem < ApplicationRecord
     belongs_to :timelineable, polymorphic: true
+    belongs_to :user
 
     validates_presence_of :event
 
