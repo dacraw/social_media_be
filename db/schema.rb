@@ -78,10 +78,9 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_12_121600) do
     t.string "name", null: false
     t.string "github_username"
     t.datetime "registered_at", null: false
-    t.string "jti"
     t.string "password_digest"
+    t.string "jti"
     t.index ["email"], name: "index_users_on_email", unique: true
-    t.index ["jti"], name: "index_users_on_jti", unique: true
   end
 
   add_foreign_key "github_events", "users"
