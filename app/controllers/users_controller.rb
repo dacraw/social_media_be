@@ -1,9 +1,12 @@
 class UsersController < ApplicationController
+    skip_before_action :authorize_user!, only: [:create]
+
     def create
         @user = User.new user_params
+        @token = encode_token user_id: @user.id
 
         if @user.save
-            render json: {status: 200, message: "User saved", user: @user.as_json(only: [:name, :email, :id])}
+            render json: { message: "User saved", user: @user.as_json(only: [:name, :email, :id]), token: @token}, status: 200
         end
     end
 

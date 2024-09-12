@@ -7,10 +7,12 @@ RSpec.describe "Users", type: :request do
     it "creates a new user" do
       expect {
         post users_path, params: { user: { name: "Doug", email: "dougiefresh@example.com", registered_at: Time.now, password: "password"}}
-    }.to change { User.count }.from(0).to(1)
+      }.to change { User.count }.from(0).to(1)
 
-    parsed_data = JSON.parse response.body
-    expect(parsed_data["user"]["password_digest"]).not_to be_present
+      parsed_data = JSON.parse response.body 
+      expect(parsed_data["user"]["password_digest"]).not_to be_present
+      expect(parsed_data["token"]).to be_present
+      
     end
   end
   
