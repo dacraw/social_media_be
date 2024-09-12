@@ -98,7 +98,6 @@ GEM
       warden (~> 1.2.3)
     diff-lcs (1.5.1)
     drb (2.2.1)
-    error_highlight (0.6.0)
     erubi (1.13.0)
     factory_bot (6.5.0)
       activesupport (>= 5.0.0)
@@ -263,7 +262,6 @@ DEPENDENCIES
   bootsnap
   debug
   devise (~> 4.9.4)
-  error_highlight (>= 0.4.0)
   factory_bot_rails (~> 6.4.3)
   faker (~> 3.4.2)
   jwt
