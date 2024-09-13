@@ -3,6 +3,10 @@ class UserRatingsController < ApplicationController
         if user_ratings_params[:user_id] == user_ratings_params[:rater_id]
             return render json: { error: { message: "You cannot rate yourself."} }, status: 400
         end
+
+        if UserRating.where(user_id: user_ratings_params[:user_id], rater_id: user_ratings_params[:rater_id]).present?
+            return render json: { error: { message: "You have already rated this user."} }, status: 400
+        end
         
         @user_rating = UserRating.new(user_ratings_params)
         @user_rating.rated_at = Time.now
