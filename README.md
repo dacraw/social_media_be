@@ -12,9 +12,9 @@ This single endpoint provides the given user's timeline, paginated 7 results at 
 
 Example:
 
-GET `/users/4/timeline` - will provide the first 7 timeline items for the user
-GET `/users/4/timeline?page[page]=2` - will provide the second page of results
-etc...
+GET `/users/4/timeline` - will provide the first 7 timeline items for the user \
+GET `/users/4/timeline?page[page]=2` - will provide the second page of results \
+etc... 
 
 This endpoint uses the Ruby gem [`Pagy`](https://github.com/ddnexus/pagy) to paginate results, due to its exceptional performance compared to native Rails pagination. The response from this endpoint will include a `"links"` key that will contain information regarding next available page. For example:
 
