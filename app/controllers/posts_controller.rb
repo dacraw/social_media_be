@@ -1,4 +1,16 @@
 class PostsController < ApplicationController
+    skip_before_action :authenticate_user!
+    
+    def show
+        @post = Post.find_by_id params[:id]
+
+        if !@post
+            return render json: { errors: { message: "That post does not exist."} }, status: 400
+        end
+
+        render json: @post.as_json.merge({ "user_average_rating" => @post.user.average_rating})
+    end
+    
     def create
         @post = Post.new posts_params
         @post.posted_at = Time.now

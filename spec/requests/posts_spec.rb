@@ -2,6 +2,29 @@ require 'rails_helper'
 
 RSpec.describe "Posts", type: :request do
   let(:user) { create :user }
+
+  describe "GET /show" do
+    it "returns information for a post" do
+      user = create :user, :with_ratings
+      post = create :post, user: user
+
+      get post_path post.id
+
+      parsed_data = JSON.parse response.body
+      expect(parsed_data["id"].to_i).to eq post.id
+      expect(parsed_data["title"]).to eq post.title
+      expect(parsed_data["body"]).to eq post.body
+      expect(parsed_data["user_id"].to_i).to eq post.user_id
+      expect(parsed_data["user_average_rating"]).to eq post.user.average_rating
+    end
+
+    it "returns an error for nonexistent posts" do
+      get post_path 12345
+
+      expect(response.status).to eq 400
+      expect(JSON.parse(response.body)["errors"]["message"]).to include "That post does not exist."
+    end
+  end
   
   describe "POST /create" do
     it "creates a post with valid parameters" do
