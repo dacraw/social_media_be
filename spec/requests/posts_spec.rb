@@ -3,6 +3,18 @@ require 'rails_helper'
 RSpec.describe "Posts", type: :request do
   let(:user) { create :user }
 
+  describe "GET /index" do
+    it "returns posts" do
+      token = sign_in user
+
+      posts = create_list :post, 3, user: user
+
+      get posts_path, headers: { authorization: "Bearer #{token}"}
+
+      expect(JSON.parse(response.body)["data"].size).to eq posts.size
+    end
+  end
+
   describe "GET /show" do
     it "returns information for a post" do
       user = create :user, :with_ratings

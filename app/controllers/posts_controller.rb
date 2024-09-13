@@ -1,5 +1,15 @@
+require 'pagy/extras/jsonapi'
+
 class PostsController < ApplicationController
+    include Pagy::Backend
+    
     skip_before_action :authenticate_user!
+
+    def index
+        pagy, records = pagy(Post.all.order(created_at: :desc), limit: 7)
+
+        render json: { data: records, links: pagy_jsonapi_links(pagy)}
+    end
     
     def show
         @post = Post.find_by_id params[:id]

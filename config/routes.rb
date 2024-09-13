@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   post "/login", to: "authentication#login"
 
   resources :users, only: [:create]
-  resources :posts, only: [:create, :show] do
+  resources :posts, only: [:create, :index, :show] do
     resources :comments, only: [:create, :index]
   end
 
