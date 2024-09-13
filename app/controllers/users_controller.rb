@@ -7,10 +7,14 @@ class UsersController < ApplicationController
 
     def create
         user = User.new user_params
+        user.registered_at = Time.now
+
         token = encode_token user_id: user.id
 
         if user.save
             render json: { message: "User saved", user: user.as_json(only: [:name, :email, :id]), token: token}, status: 200
+        else
+            render json: { errors: { message: user.errors.full_messages}}
         end
     end
 
@@ -113,6 +117,6 @@ class UsersController < ApplicationController
     end
 
     def user_params
-        params.require(:user).permit(:email, :name, :registered_at, :password)
+        params.require(:user).permit(:email, :name, :password)
     end
 end
