@@ -13,6 +13,5 @@ RSpec.describe TimelineItem, type: :model do
       expect(timeline_item.timelineable).to eq timelineable
       expect(timeline_item.event).to eq TimelineItem::CREATE_POST
     }.to change {TimelineItem.count}.from(0).to(1)
-
   end
 end
