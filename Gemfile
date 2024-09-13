@@ -11,7 +11,9 @@ gem "pg", "~> 1.1"
 # Use the Puma web server [https://github.com/puma/puma]
 gem "puma", ">= 5.0"
 
-gem "jwt"
+gem "jwt", "~> 2.8.2"
+
+gem "pagy", "~> 9.0.9"
 
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 # gem "jbuilder"
@@ -38,7 +40,7 @@ gem "bootsnap", require: false
 # gem "rack-cors"
 
 gem "devise", "~> 4.9.4"
-gem "octokit"
+gem "octokit", "~> 9.1.0"
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
