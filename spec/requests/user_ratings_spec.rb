@@ -20,7 +20,7 @@ RSpec.describe "UserRatings", type: :request do
       post user_ratings_path, params: user_ratings_params, headers: { authorization: token }
 
       expect(response.status).to eq 400
-      expect(response.body).to eq "{\"error\":{\"message\":\"There was an error creating the user rating.\"}}"
+      expect(response.body).to eq "{\"errors\":{\"message\":\"There was an error creating the user rating.\"}}"
     end
 
     it "does not allow a user to rate themself" do
@@ -28,7 +28,7 @@ RSpec.describe "UserRatings", type: :request do
       post user_ratings_path, params: user_ratings_params, headers: { authorization: token }
 
       expect(response.status).to eq 400
-      expect(JSON.parse(response.body)["error"]["message"]).to eq "You cannot rate yourself."
+      expect(JSON.parse(response.body)["errors"]["message"]).to eq "You cannot rate yourself."
     end
 
     it "does not allow a user to rate the same user more than once" do
@@ -37,7 +37,7 @@ RSpec.describe "UserRatings", type: :request do
       user_ratings_params = { user_rating: { user_id: user.id, rater_id: rater.id, rating: 4 } }
       post user_ratings_path, params: user_ratings_params, headers: { authorization: token }
 
-      expect(JSON.parse(response.body)["error"]["message"]).to eq "You have already rated this user."
+      expect(JSON.parse(response.body)["errors"]["message"]).to eq "You have already rated this user."
     end
 
     context "when the user surpasses an average rating of 4.0" do

@@ -1,11 +1,11 @@
 class UserRatingsController < ApplicationController
     def create
         if user_ratings_params[:user_id] == user_ratings_params[:rater_id]
-            return render json: { error: { message: "You cannot rate yourself."} }, status: 400
+            return render json: { errors: { message: "You cannot rate yourself."} }, status: 400
         end
 
         if UserRating.where(user_id: user_ratings_params[:user_id], rater_id: user_ratings_params[:rater_id]).present?
-            return render json: { error: { message: "You have already rated this user."} }, status: 400
+            return render json: { errors: { message: "You have already rated this user."} }, status: 400
         end
         
         @user_rating = UserRating.new(user_ratings_params)
@@ -19,7 +19,7 @@ class UserRatingsController < ApplicationController
             
             render json: @user_rating
         else
-            render json: { error: { message: "There was an error creating the user rating." } }, status: 400
+            render json: { errors: { message: "There was an error creating the user rating." } }, status: 400
         end
     end
 
