@@ -29,7 +29,7 @@ class UsersController < ApplicationController
                 if !existing_github_ids.include? github_id
                     github_event = GithubEvent.create! repo_name: repo_name, branch: branch, event_name: GithubAPI::PUSH_COMMIT, github_id: github_id, user: user, date: event_date
 
-                    TimelineItem.create! timelineable: github_event, user: user, event: TimelineItem::PUSH_GITHUB_COMMITS_TO_BRANCH, message: "Pushed #{num_commits} #{"commit".pluralize(num_commits)} to #{repo_name} #{branch}" 
+                    TimelineItem.create! timelineable: github_event, user: user, event: TimelineItem::PUSH_GITHUB_COMMITS_TO_BRANCH, message: "Pushed #{num_commits} #{"commit".pluralize(num_commits)} to #{repo_name} #{branch}", date: event_date 
                 end
             end
 
@@ -42,7 +42,7 @@ class UsersController < ApplicationController
                 if !existing_github_ids.include? github_id
                     github_event = GithubEvent.create! repo_name: repo_name, event_name: GithubAPI::CREATE_REPO, github_id: github_id, user: user, date: event_date
 
-                    TimelineItem.create! timelineable: github_event, user: user, event: TimelineItem::CREATE_NEW_GITHUB_REPOSITORY, message: "Created a new repository #{repo_name}" 
+                    TimelineItem.create! timelineable: github_event, user: user, event: TimelineItem::CREATE_NEW_GITHUB_REPOSITORY, message: "Created a new repository #{repo_name}", date: event_date
                 end
             end
 
@@ -56,7 +56,7 @@ class UsersController < ApplicationController
                 if !existing_github_ids.include? github_id
                     github_event = GithubEvent.create! repo_name: repo_name, event_name: GithubAPI::CREATE_REPO, github_id: github_id, user: user, date: event_date
 
-                    TimelineItem.create! timelineable: github_event, user: user, event: TimelineItem::CREATE_NEW_GITHUB_REPOSITORY, message: "Opened a new Pull Request #{pr_number} for #{repo_name}" 
+                    TimelineItem.create! timelineable: github_event, user: user, event: TimelineItem::CREATE_NEW_GITHUB_REPOSITORY, message: "Opened a new Pull Request #{pr_number} for #{repo_name}", date: event_date 
                 end
             end
             
@@ -70,7 +70,7 @@ class UsersController < ApplicationController
                 if !existing_github_ids.include? github_id
                     github_event = GithubEvent.create! repo_name: repo_name, event_name: GithubAPI::CREATE_REPO, github_id: github_id, user: user, date: event_date
 
-                    TimelineItem.create! timelineable: github_event, user: user, event: TimelineItem::CREATE_NEW_GITHUB_REPOSITORY, message: "Merged #{pr_number} into #{repo_name}" 
+                    TimelineItem.create! timelineable: github_event, user: user, event: TimelineItem::CREATE_NEW_GITHUB_REPOSITORY, message: "Merged #{pr_number} into #{repo_name}", date: event_date
                 end
             end
         end

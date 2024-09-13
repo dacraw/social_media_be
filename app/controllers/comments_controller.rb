@@ -4,7 +4,7 @@ class CommentsController < ApplicationController
         @comment.commented_at = Time.now
 
         if @comment.save
-            TimelineItem.create timelineable: @comment, event: TimelineItem::COMMENT_ON_POST, user: @comment.user
+            TimelineItem.create timelineable: @comment, event: TimelineItem::COMMENT_ON_POST, user: @comment.user, date: Time.now
 
             render json: @comment, status: 200
         else
