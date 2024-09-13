@@ -3,8 +3,6 @@ require 'pagy/extras/jsonapi'
 class PostsController < ApplicationController
     include Pagy::Backend
     
-    skip_before_action :authenticate_user!
-
     def index
         pagy, records = pagy(Post.all.order(created_at: :desc), limit: 7)
 
