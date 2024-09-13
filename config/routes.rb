@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   post "/register", to: "users#create"
 
   resources :posts, only: [:create, :index, :show] do
-    resources :comments, only: [:create, :index]
+    resources :comments, only: [:create, :index, :show]
   end
 
   resources :user_ratings, only: [:create]

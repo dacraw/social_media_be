@@ -4,6 +4,11 @@ class CommentsController < ApplicationController
     def index
         render json: @post.comments
     end
+
+    def show
+        comment = @post.comments.find params[:id]
+        render json: comment
+    end
     
     def create
         @post = Post.find params[:post_id]

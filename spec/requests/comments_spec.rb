@@ -23,6 +23,20 @@ RSpec.describe "Comments", type: :request do
     end
   end
 
+  describe "GET /show" do
+    it "responds with information about the given comment" do
+      post = create :post, user: create(:user)
+      comment = create :comment, post: post, user: user, message: Faker::Lorem.words.join(' ')
+      token = sign_in user
+      get post_comment_path(post_id: post.id, id: comment.id), headers: { authorization: "Bearer #{token}" }
+      
+      parsed_data = JSON.parse response.body
+      expect(parsed_data["user_id"].to_i).to eq comment.user.id
+      expect(parsed_data["post_id"].to_i).to eq comment.post.id
+      expect(parsed_data["message"]).to eq comment.message
+    end
+  end
+
   describe "POST /create" do
     let(:existing_post) { create :post, user: create(:user) }
 
