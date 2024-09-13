@@ -12,23 +12,28 @@ RSpec.describe "UserRatings", type: :request do
       
       expect {
         post user_ratings_path, params: user_ratings_params, headers: { authorization: token }
-
-    }.to change { UserRating.count }.from(0).to(1)
+      }.to change { UserRating.count }.from(0).to(1)
     end
 
     it "renders an error if the user rating is not created" do
       user_ratings_params = { user_rating: { user_id: user.id, rater_id: rater.id } }
       post user_ratings_path, params: user_ratings_params, headers: { authorization: token }
 
-
       expect(response.status).to eq 400
       expect(response.body).to eq "{\"error\":{\"message\":\"There was an error creating the user rating.\"}}"
+    end
+
+    it "does not allow a user to rate themself" do
+      user_ratings_params = { user_rating: { user_id: user.id, rater_id: user.id } }
+      post user_ratings_path, params: user_ratings_params, headers: { authorization: token }
+
+      expect(response.status).to eq 400
+      expect(JSON.parse(response.body)["error"]["message"]).to eq "You cannot rate yourself."
     end
 
     context "when the user surpasses an average rating of 4.0" do
       let!(:user) { create :user }
       let!(:user_rating) { create :user_rating, user: user, rating: 4, rater: create(:user), rated_at: Time.now}
-
 
       it "creates a timeline item" do
         user.reload
