@@ -6,18 +6,18 @@ class UsersController < ApplicationController
     skip_before_action :authenticate_user!, only: [:create]
 
     def create
-        @user = User.new user_params
-        @token = encode_token user_id: @user.id
+        user = User.new user_params
+        token = encode_token user_id: user.id
 
-        if @user.save
-            render json: { message: "User saved", user: @user.as_json(only: [:name, :email, :id]), token: @token}, status: 200
+        if user.save
+            render json: { message: "User saved", user: user.as_json(only: [:name, :email, :id]), token: token}, status: 200
         end
     end
 
     def timeline
         user = User.find(params[:id])
 
-        if user.github_username
+        if user.github_username.present?
             github_user_public_events = Octokit.user_events user.github_username
             
             existing_github_ids = user.github_events.pluck(:github_id)
