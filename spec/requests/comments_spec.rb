@@ -2,9 +2,30 @@ require 'rails_helper'
 
 RSpec.describe "Comments", type: :request do
   let(:user) { create :user }
-  let(:existing_post) { create :post, user: create(:user) }
+
+  describe "GET /index" do
+    let!(:post_with_comments) { create :post, :with_comments, user: user}
+    let(:token) { sign_in user }
+
+    it "retrieves comments for a post" do
+      get post_comments_path(post_id: post_with_comments.id), headers: { authorization: "Bearer #{token}"}
+
+      parsed_data = JSON.parse response.body
+      expect(parsed_data.size).to eq post_with_comments.comments.size
+      expect(parsed_data.pluck("post_id").all? {|id| id.to_i == post_with_comments.id }).to eq true
+    end
+
+    it "returns an error for a non-existent post" do
+      get post_comments_path(post_id: 12345), headers: { authorization: "Bearer #{token}" }
+      
+      expect(response.status).to eq 400
+      expect(JSON.parse(response.body)["errors"]["message"]).to include "That post does not exist."
+    end
+  end
 
   describe "POST /create" do
+    let(:existing_post) { create :post, user: create(:user) }
+
     it "creates a comment" do
       comment_params = {
         user_id: user.id,
