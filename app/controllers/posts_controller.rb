@@ -18,7 +18,7 @@ class PostsController < ApplicationController
             return render json: { errors: { message: "That post does not exist."} }, status: 400
         end
 
-        render json: @post.as_json.merge({ "user_average_rating" => @post.user.average_rating})
+        render json: @post.as_json.merge({ "user_average_rating" => @post.user.average_rating}, "post_user_name" => @post.user.name)
     end
     
     def create

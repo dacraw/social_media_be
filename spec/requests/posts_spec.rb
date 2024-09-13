@@ -28,6 +28,7 @@ RSpec.describe "Posts", type: :request do
       expect(parsed_data["body"]).to eq post.body
       expect(parsed_data["user_id"].to_i).to eq post.user_id
       expect(parsed_data["user_average_rating"]).to eq post.user.average_rating
+      expect(parsed_data["post_user_name"]).to eq post.user.name
     end
 
     it "returns an error for nonexistent posts" do
