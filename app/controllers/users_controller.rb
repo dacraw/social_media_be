@@ -1,4 +1,8 @@
+require 'pagy/extras/jsonapi'
+
 class UsersController < ApplicationController
+    include Pagy::Backend
+
     skip_before_action :authenticate_user!, only: [:create]
 
     def create
@@ -75,8 +79,9 @@ class UsersController < ApplicationController
             end
         end
 
+        pagy, records = pagy(user.timeline_items.order(date: :desc), limit: 7)
         
-        render json: { timeline_items: user.timeline_items.order(date: :desc) }
+        render json: { data:  records, links: pagy_jsonapi_links(pagy) }
     end
 
     private
