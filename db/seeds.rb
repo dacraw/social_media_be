@@ -9,13 +9,13 @@
 #   end
 
 if User.count == 0
-    User.create! email: "johndoe@example.com", name: "John Doe", github_username: "jdddd", registered_at: Date.parse("2024-09-10"), created_at: Date.parse("2024-09-10"), updated_at: Date.parse("2024-09-10"), password: "password"
+    User.create! email: "johndoe@example.com", name: "John Doe", github_username: "", registered_at: Date.parse("2024-09-10"), created_at: Date.parse("2024-09-10"), updated_at: Date.parse("2024-09-10"), password: "password"
 
-    User.create! email: "janedoe@example.com", name: "Jane Doe", github_username: "janeyyy", registered_at: Date.parse("2024-09-10"), created_at: Date.parse("2024-09-10"), updated_at: Date.parse("2024-09-10"), password: "password"
+    User.create! email: "janedoe@example.com", name: "Jane Doe", github_username: "", registered_at: Date.parse("2024-09-10"), created_at: Date.parse("2024-09-10"), updated_at: Date.parse("2024-09-10"), password: "password"
 
-    User.create! email: "beebo@example.com", name: "Beebo", github_username: "beebz", registered_at: Date.parse("2024-09-10"), created_at: Date.parse("2024-09-10"), updated_at: Date.parse("2024-09-10"), password: "password"
+    User.create! email: "beebo@example.com", name: "Beebo", github_username: "", registered_at: Date.parse("2024-09-10"), created_at: Date.parse("2024-09-10"), updated_at: Date.parse("2024-09-10"), password: "password"
 
-    User.create! email: "rado@example.com", name: "Silverado", github_username: "rado5000", registered_at: Date.parse("2024-09-10"), created_at: Date.parse("2024-09-10"), updated_at: Date.parse("2024-09-10"), password: "password"
+    User.create! email: "rado@example.com", name: "Silverado", github_username: "", registered_at: Date.parse("2024-09-10"), created_at: Date.parse("2024-09-10"), updated_at: Date.parse("2024-09-10"), password: "password"
 end
 
 if UserRating.count == 0 
