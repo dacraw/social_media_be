@@ -3,8 +3,9 @@ Rails.application.routes.draw do
   post "/login", to: "authentication#login"
 
   resources :users, only: [:create]
-  resources :posts, only: [:create, :show]
-  resources :comments, only: [:create]
+  resources :posts, only: [:create, :show] do
+    resources :comments, only: [:create]
+  end
 
   resources :user_ratings, only: [:create]
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html

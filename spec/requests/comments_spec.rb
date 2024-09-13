@@ -15,7 +15,9 @@ RSpec.describe "Comments", type: :request do
       token = sign_in(user)
 
       expect {
-        post comments_path, params: {comment: comment_params}, headers: { authorization: "Bearer #{token}"}
+        post post_comments_path(post_id: existing_post.id), params: {comment: comment_params}, headers: { authorization: "Bearer #{token}"}
+
+        expect(Comment.last.post).to eq existing_post
       }.to change { Comment.count }.from(0).to(1)
     end
 
@@ -29,7 +31,7 @@ RSpec.describe "Comments", type: :request do
       token = sign_in(user)
       
       expect {
-        post comments_path, params: {comment: comment_params}, headers: { authorization: "Bearer #{token}"}
+        post post_comments_path(post_id: existing_post.id), params: {comment: comment_params}, headers: { authorization: "Bearer #{token}"}
       }.to change { TimelineItem.count }.from(0).to(1)     
 
       timeline_item = TimelineItem.last
