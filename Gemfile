@@ -13,7 +13,7 @@ gem "puma", ">= 5.0"
 
 gem "jwt", "~> 2.8.2"
 
-gem "pagy", "~> 9.0.9"
+gem "pagy", "~> 9.0"
 
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 # gem "jbuilder"
