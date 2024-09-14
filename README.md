@@ -233,6 +233,8 @@ The `/posts` and `/users/:id/timeline` routes are paginated, and **it is recomme
 
 If `"next"` is `null`, then the last page of results has been reached. If you enter a `page[page]` param with a page number that exceeds the total number of pages, the last page of results will be returned.
 
+# Errors
+Errors will be returned in the format `{ errors: { message:string | array }`
 
 
 
