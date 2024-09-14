@@ -14,7 +14,7 @@ class CommentsController < ApplicationController
         @post = Post.find params[:post_id]
         
         comment = Comment.new comment_params
-        comment.user = @post.user
+        comment.user = current_user
         comment.post = @post
         comment.commented_at = Time.now
 
