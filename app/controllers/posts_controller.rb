@@ -1,4 +1,24 @@
+require 'pagy/extras/jsonapi'
+
 class PostsController < ApplicationController
+    include Pagy::Backend
+    
+    def index
+        pagy, records = pagy(Post.all.order(created_at: :desc), limit: 7)
+
+        render json: { data: records, links: pagy_jsonapi_links(pagy)}
+    end
+    
+    def show
+        post = Post.find_by_id params[:id]
+
+        if !post
+            return render json: { errors: { message: "That post does not exist."} }, status: 400
+        end
+
+        render json: post.as_json.merge({ "user_average_rating" => post.user.average_rating}, "post_user_name" => post.user.name)
+    end
+    
     def create
         @post = Post.new posts_params
         @post.posted_at = Time.now

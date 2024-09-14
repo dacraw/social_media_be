@@ -1,10 +1,11 @@
 Rails.application.routes.draw do
   get "/users/:id/timeline", to: "users#timeline"
   post "/login", to: "authentication#login"
+  post "/register", to: "users#create"
 
-  resources :users, only: [:create]
-  resources :posts, only: [:create]
-  resources :comments, only: [:create]
+  resources :posts, only: [:create, :index, :show] do
+    resources :comments, only: [:create, :index, :show]
+  end
 
   resources :user_ratings, only: [:create]
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html

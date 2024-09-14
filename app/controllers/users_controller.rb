@@ -6,18 +6,22 @@ class UsersController < ApplicationController
     skip_before_action :authenticate_user!, only: [:create]
 
     def create
-        @user = User.new user_params
-        @token = encode_token user_id: @user.id
+        user = User.new user_params
+        user.registered_at = Time.now
 
-        if @user.save
-            render json: { message: "User saved", user: @user.as_json(only: [:name, :email, :id]), token: @token}, status: 200
+        token = encode_token user_id: user.id
+
+        if user.save
+            render json: { message: "User saved", user: user.as_json(only: [:name, :email, :id]), token: token}, status: 200
+        else
+            render json: { errors: { message: user.errors.full_messages}}
         end
     end
 
     def timeline
         user = User.find(params[:id])
 
-        if user.github_username
+        if user.github_username.present?
             github_user_public_events = Octokit.user_events user.github_username
             
             existing_github_ids = user.github_events.pluck(:github_id)
@@ -31,7 +35,7 @@ class UsersController < ApplicationController
                 event_date = event[:created_at]
 
                 if !existing_github_ids.include? github_id
-                    github_event = GithubEvent.create! repo_name: repo_name, branch: branch, event_name: GithubAPI::PUSH_COMMIT, github_id: github_id, user: user, date: event_date
+                    github_event = GithubEvent.create! repo_name: repo_name, branch: branch, event_name: "PushEvent", github_id: github_id, user: user, date: event_date
 
                     TimelineItem.create! timelineable: github_event, user: user, event: TimelineItem::PUSH_GITHUB_COMMITS_TO_BRANCH, message: "Pushed #{num_commits} #{"commit".pluralize(num_commits)} to #{repo_name} #{branch}", date: event_date 
                 end
@@ -44,7 +48,7 @@ class UsersController < ApplicationController
                 event_date = event[:created_at]
 
                 if !existing_github_ids.include? github_id
-                    github_event = GithubEvent.create! repo_name: repo_name, event_name: GithubAPI::CREATE_REPO, github_id: github_id, user: user, date: event_date
+                    github_event = GithubEvent.create! repo_name: repo_name, event_name: "CreateEvent", github_id: github_id, user: user, date: event_date
 
                     TimelineItem.create! timelineable: github_event, user: user, event: TimelineItem::CREATE_NEW_GITHUB_REPOSITORY, message: "Created a new repository #{repo_name}", date: event_date
                 end
@@ -58,7 +62,7 @@ class UsersController < ApplicationController
                 pr_number = event[:payload][:number]
 
                 if !existing_github_ids.include? github_id
-                    github_event = GithubEvent.create! repo_name: repo_name, event_name: GithubAPI::OPEN_PULL_REQUEST, github_id: github_id, user: user, date: event_date
+                    github_event = GithubEvent.create! repo_name: repo_name, event_name: "PullRequestEvent", github_id: github_id, user: user, date: event_date
 
                     TimelineItem.create! timelineable: github_event, user: user, event: TimelineItem::OPEN_NEW_GITHUB_PULL_REQUEST, message: "Opened a new Pull Request ##{pr_number} for #{repo_name}", date: event_date 
                 end
@@ -72,7 +76,7 @@ class UsersController < ApplicationController
                 pr_number = event[:payload][:number]
 
                 if !existing_github_ids.include? github_id
-                    github_event = GithubEvent.create! repo_name: repo_name, event_name: GithubAPI::MERGE_PULL_REQUEST, github_id: github_id, user: user, date: event_date
+                    github_event = GithubEvent.create! repo_name: repo_name, event_name: "PullRequestEvent", github_id: github_id, user: user, date: event_date
 
                     TimelineItem.create! timelineable: github_event, user: user, event: TimelineItem::MERGE_GITHUB_PULL_REQUEST, message: "Merged ##{pr_number} into #{repo_name}", date: event_date
                 end
@@ -87,32 +91,32 @@ class UsersController < ApplicationController
     private
 
     def filter_push_commit(events)
-        events.filter {|event| event[:type] == GithubAPI::PUSH_COMMIT }
+        events.filter {|event| event[:type] == "PushEvent" }
     end
 
     def filter_create_repo(events)
         events.filter do |event| 
-            event[:type] == GithubAPI::CREATE_REPO &&
+            event[:type] == "CreateEvent" &&
             event[:payload][:ref_type] == "repository"
         end
     end
 
     def filter_open_pr(events)
         events.filter do |event|
-            event[:type] == GithubAPI::OPEN_PULL_REQUEST &&
+            event[:type] == "PullRequestEvent" &&
             event[:payload][:action] == "opened"
         end
     end
 
     def filter_merge_pr(events)
         events.filter do |event|
-            event[:type] == GithubAPI::MERGE_PULL_REQUEST &&
+            event[:type] == "PullRequestEvent" &&
             event[:payload][:action] == "closed" &&
             ["refs/heads/master", "refs/heads/main"].include?(event[:payload][:ref])
         end
     end
 
     def user_params
-        params.require(:user).permit(:email, :name, :registered_at, :password)
+        params.require(:user).permit(:email, :name, :password)
     end
 end
