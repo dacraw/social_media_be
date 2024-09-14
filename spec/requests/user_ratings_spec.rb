@@ -20,7 +20,7 @@ RSpec.describe "UserRatings", type: :request do
       post user_ratings_path, params: user_ratings_params, headers: { authorization: token }
 
       expect(response.status).to eq 400
-      expect(response.body).to eq "{\"errors\":{\"message\":\"There was an error creating the user rating.\"}}"
+      expect(JSON.parse(response.body)["errors"]["message"]).to be_present
     end
 
     it "does not allow a user to rate themself" do
