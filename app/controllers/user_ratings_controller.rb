@@ -1,6 +1,6 @@
 class UserRatingsController < ApplicationController
     def create
-        if user_ratings_params[:user_id] == user_ratings_params[:rater_id]
+        if (user_ratings_params[:user_id] && user_ratings_params[:rater_id]) && (user_ratings_params[:user_id] == user_ratings_params[:rater_id])
             return render json: { errors: { message: "You cannot rate yourself."} }, status: 400
         end
 
@@ -19,7 +19,7 @@ class UserRatingsController < ApplicationController
             
             render json: user_rating
         else
-            render json: { errors: { message: "There was an error creating the user rating." } }, status: 400
+            render json: { errors: { message: user_rating.errors.full_messages } }, status: 400
         end
     end
 
