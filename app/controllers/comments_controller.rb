@@ -14,6 +14,7 @@ class CommentsController < ApplicationController
         @post = Post.find params[:post_id]
         
         comment = Comment.new comment_params
+        comment.user = @post.user
         comment.post = @post
         comment.commented_at = Time.now
 
@@ -28,7 +29,7 @@ class CommentsController < ApplicationController
 
     private
     def comment_params
-        params.require(:comment).permit(:user_id, :message)
+        params.require(:comment).permit(:message)
     end
 
     def set_post
