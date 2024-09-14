@@ -2,7 +2,7 @@ class ApplicationController < ActionController::API
     before_action :authenticate_user!
 
     rescue_from ActionController::ParameterMissing do |exception|
-        render json: { error: { message: exception.message }}
+        render json: { errors: { message: exception.message }}
     end
 
     def encode_token(payload)
