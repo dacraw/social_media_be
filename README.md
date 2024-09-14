@@ -1,3 +1,5 @@
+# Posts App w/ User Activity Feed (including some Github public events)
+
 #### Important Note About Database:
 This App uses Postgresql, so please be sure to install it locally if you do not have it:
 - Linux:
